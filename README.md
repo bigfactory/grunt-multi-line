@@ -19,16 +19,27 @@ grunt.loadNpmTasks('grunt-multi-line');
 
 ```
 grunt.initConfig({
-    multiline: {    
-        replace: {
-            options: {
-              beingTag: "'''",
-              endTag: "'''"
-            },
+    multiline: {
+        options: {
+            beginTag: "'''",
+            endTag: "'''"
+        },
+        replaceWithTheSourceFile: {
             files: [{
-                src: ['**/*.js', '!**/*-min.js'],
-                dest: '<%= opt.temp %>'
+                expand: true,
+                cwd: 'test/temp',
+                src: '**/*.js',
+                dest: 'test/temp'
             }]
+        },
+        replaceToNewFile: {
+            options: {
+                beginTag: "'@'/*",
+                endTag: "*/"
+            },
+            files: {
+                'test/build/otherTag.js': ['test/src/otherTag.js']
+            }
         }
     }
 });
@@ -40,7 +51,7 @@ grunt.initConfig({
 $ grunt multiline
 ```
 
-### Source
+### How it work
 
 ```
 
@@ -50,12 +61,12 @@ var tpl = '''
 ''';
 ```
 
-will turn out to:
+will turn output as:
 
 ```
 
-var tpl = '''\
+var tpl = '\
   <h1>{{user.name}}</h1>\
   <p>{{user.text}}</p>\
-''';
+';
 ```
