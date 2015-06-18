@@ -20,24 +20,13 @@ module.exports = function(grunt) {
         });
 
         this.files.forEach(function(f) {
-            var src;
+            f.src.map(function(srcFile) {
 
-            src = f.src.map(function(srcFile) {
-
-                var destFile, srcCode;
-
-                if(f.dest){
-                    destFile = path.join(f.dest, srcFile);
-                }
-                else{
-                    destFile = srcFile;
-                }
-
-                srcCode = grunt.file.read(srcFile);
+                var srcCode = grunt.file.read(srcFile);
                 srcCode = replace(srcCode, options);
 
-                grunt.file.write(destFile, srcCode);
-                grunt.log.writeln('File ' + chalk.cyan(destFile) + ' updated');
+                grunt.file.write(f.dest, srcCode);
+                grunt.log.writeln('File ' + chalk.cyan(f.dest) + ' updated');
                 
             });
 

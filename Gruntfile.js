@@ -24,22 +24,26 @@ module.exports = function(grunt) {
 
         // Configuration to be run (and then tested).
         multiline: {
-            
-            replace: {
+            options: {
+                beginTag: "'''",
+                endTag: "'''"
+            },
+            replaceWithTheSourceFile: {
                 files: [{
-                    src: './test/src/index.js',
-                    dest: './test/temp/'
+                    expand: true,
+                    cwd: 'test/temp',
+                    src: '**/*.js',
+                    dest: 'test/temp'
                 }]
             },
-            replace2: {
+            replaceToNewFile: {
                 options: {
                     beginTag: "'@'/*",
-                    endTag: "*/;"
+                    endTag: "*/"
                 },
-                files: [{
-                    src: './test/src/otherTag.js',
-                    dest: './test/temp/'
-                }]
+                files: {
+                    'test/build/otherTag.js': ['test/src/otherTag.js']
+                }
             }
         }
 
